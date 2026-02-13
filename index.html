@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Berjin 💖</title>
+<style>
+body {
+  margin: 0;
+  overflow: hidden;
+  background: black;
+  font-family: 'Arial';
+  color: white;
+  text-align: center;
+}
+
+/* Galaksi yıldızlar */
+.star {
+  position: absolute;
+  background: white;
+  width: 2px;
+  height: 2px;
+  animation: twinkle 2s infinite alternate;
+}
+@keyframes twinkle {
+  from { opacity: 0.2; }
+  to { opacity: 1; }
+}
+
+/* BERJİN yazısı */
+#name {
+  font-size: 80px;
+  font-weight: bold;
+  color: hotpink;
+  text-shadow: 0 0 20px pink, 0 0 40px red;
+  margin-top: 180px;
+  animation: glow 2s infinite alternate;
+}
+@keyframes glow {
+  from { text-shadow: 0 0 10px pink; }
+  to { text-shadow: 0 0 40px red; }
+}
+
+/* Mesaj */
+#msg {
+  font-size: 24px;
+  margin-top: 20px;
+  opacity: 0;
+  animation: show 5s forwards 3s;
+}
+@keyframes show {
+  to { opacity: 1; }
+}
+
+/* Kalpler */
+.heart {
+  position: absolute;
+  font-size: 20px;
+  animation: float 6s linear infinite;
+}
+@keyframes float {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(-700px); opacity: 0; }
+}
+
+/* Çiçekler */
+.flower {
+  position: absolute;
+  font-size: 24px;
+  animation: fall 10s linear infinite;
+}
+@keyframes fall {
+  from { transform: translateY(-100px); }
+  to { transform: translateY(800px); }
+}
+</style>
+</head>
+
+<body>
+
+<div id="name">BERJİN</div>
+<div id="msg">İyi ki o imza gününde karşılaşmışız 💖<br>Seni seviyorum</div>
+
+<script>
+// YILDIZLI GALAKSİ
+for (let i = 0; i < 200; i++) {
+  let s = document.createElement("div");
+  s.className = "star";
+  s.style.left = Math.random() * innerWidth + "px";
+  s.style.top = Math.random() * innerHeight + "px";
+  s.style.animationDuration = (Math.random()*3+1)+"s";
+  document.body.appendChild(s);
+}
+
+// UÇAN KALPLER
+setInterval(() => {
+  let h = document.createElement("div");
+  h.innerHTML = "❤️";
+  h.className = "heart";
+  h.style.left = Math.random() * innerWidth + "px";
+  h.style.bottom = "0px";
+  h.style.fontSize = (Math.random()*20+10)+"px";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+}, 300);
+
+// GÜL + ÇİÇEK YAĞMURU
+setInterval(() => {
+  let f = document.createElement("div");
+  f.innerHTML = Math.random() > 0.5 ? "🌹" : "🌸";
+  f.className = "flower";
+  f.style.left = Math.random() * innerWidth + "px";
+  f.style.top = "-50px";
+  f.style.fontSize = (Math.random()*20+15)+"px";
+  document.body.appendChild(f);
+  setTimeout(()=>f.remove(),10000);
+}, 500);
+
+// TIKLAYINCA KALP PATLAMASI
