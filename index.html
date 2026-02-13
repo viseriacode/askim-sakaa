@@ -7,117 +7,134 @@
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 
 <style>
-body {
-  margin: 0;
-  overflow: hidden;
-  font-family: 'Great Vibes', cursive;
-  background: linear-gradient(-45deg, #000000, #1a001a, #330000, #000000);
-  background-size: 400% 400%;
-  animation: bgMove 15s ease infinite;
-  color: white;
+body{
+  margin:0;
+  overflow:hidden;
+  font-family:'Great Vibes', cursive;
+  background:black;
+  color:white;
 }
 
-/* Hareketli arka plan */
-@keyframes bgMove {
-  0% {background-position: 0% 50%;}
-  50% {background-position: 100% 50%;}
-  100% {background-position: 0% 50%;}
+/* ARKA PLAN FOTO KAPLAMA */
+.bg {
+  position:absolute;
+  width:50%;
+  height:100%;
+  top:0;
+  background-size:cover;
+  background-position:center;
+  filter:blur(6px) brightness(0.5);
+  z-index:0;
 }
 
-/* Büyük Kalp */
-#bigHeart {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 420px;
-  color: #ff0000;
-  text-shadow: 
-    0 0 40px #ff4d4d,
-    0 0 80px #ff1a1a,
-    0 0 150px #ff0000,
+#bgLeft{ left:0; }
+#bgRight{ right:0; }
+
+/* BÜYÜK KALP */
+#bigHeart{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  font-size:550px;
+  color:#ff0000;
+  text-shadow:
+    0 0 50px #ff4d4d,
+    0 0 120px #ff1a1a,
     0 0 250px #ff0000;
-  animation: pulse 1.5s infinite alternate;
-  z-index: 1;
+  animation:pulse 1.5s infinite alternate;
+  z-index:2;
 }
 
-@keyframes pulse {
-  from { transform: translate(-50%, -50%) scale(1); }
-  to { transform: translate(-50%, -50%) scale(1.15); }
+@keyframes pulse{
+  from{ transform:translate(-50%,-50%) scale(1);}
+  to{ transform:translate(-50%,-50%) scale(1.1);}
 }
 
-/* Mesaj */
-#msg {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 48px;
-  width: 500px;
-  text-align: center;
-  text-shadow: 0 0 20px pink, 0 0 40px red;
-  z-index: 2;
+/* YAZI */
+#msg{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  font-size:55px;
+  width:650px;
+  text-align:center;
+  z-index:3;
+  text-shadow:0 0 20px pink,0 0 40px red;
 }
 
-/* Kalp şeklinde foto */
-.heart-img {
-  position: absolute;
-  top: 50%;
-  width: 260px;
-  height: 260px;
-  transform: translateY(-50%);
-  object-fit: cover;
-  clip-path: path("M130 230 L20 120 A60 60 0 0 1 130 50 A60 60 0 0 1 240 120 Z");
-  box-shadow: 0 0 40px red;
-  animation: float 4s ease-in-out infinite;
+/* YAĞAN KALPLER */
+.heart{
+  position:absolute;
+  font-size:25px;
+  color:red;
+  animation:floatUp 6s linear infinite;
+  z-index:1;
 }
 
-#leftImg { left: 6%; }
-#rightImg { right: 6%; animation-delay: 2s; }
-
-@keyframes float {
-  0% { transform: translateY(-50%) translateY(0px); }
-  50% { transform: translateY(-50%) translateY(-20px); }
-  100% { transform: translateY(-50%) translateY(0px); }
+@keyframes floatUp{
+  from{ transform:translateY(0) rotate(0deg); opacity:1;}
+  to{ transform:translateY(-900px) rotate(360deg); opacity:0;}
 }
 
-/* Yıldız efekti */
-.star {
-  position: absolute;
-  width: 2px;
-  height: 2px;
-  background: white;
-  animation: twinkle 2s infinite alternate;
+/* YAĞAN ÇİÇEK */
+.flower{
+  position:absolute;
+  font-size:28px;
+  animation:fall 10s linear infinite;
+  z-index:1;
 }
 
-@keyframes twinkle {
-  from { opacity: 0.2; }
-  to { opacity: 1; }
+@keyframes fall{
+  from{ transform:translateY(-50px) rotate(0deg);}
+  to{ transform:translateY(1000px) rotate(360deg);}
 }
 </style>
 </head>
 <body>
 
-<img src="ben.jpg" id="leftImg" class="heart-img">
-<img src="askim.jpg" id="rightImg" class="heart-img">
+<!-- ARKA PLAN FOTO -->
+<div class="bg" id="bgLeft"></div>
+<div class="bg" id="bgRight"></div>
 
+<!-- DEV KALP -->
 <div id="bigHeart">♥</div>
 
+<!-- YAZI -->
 <div id="msg">
-  İyi ki o imza gününde karşılaşmışız<br>
-  Seni cok seviyorum askımm 💖
+İyi ki o imza gününde karşılaşmışız<br>
+Seni seviyorum Berjin Saka 💖
 </div>
 
 <script>
-// Yıldız oluşturma
-for (let i = 0; i < 120; i++) {
-  let star = document.createElement("div");
-  star.className = "star";
-  star.style.left = Math.random() * window.innerWidth + "px";
-  star.style.top = Math.random() * window.innerHeight + "px";
-  star.style.animationDelay = Math.random() * 2 + "s";
-  document.body.appendChild(star);
-}
+
+/* BURAYA SENİN FOTOĞRAFLARI GÖMÜYORUM */
+document.getElementById("bgLeft").style.backgroundImage="url('ben.jpg')";
+document.getElementById("bgRight").style.backgroundImage="url('askim.jpg')";
+
+/* KALP YAĞMURU */
+setInterval(()=>{
+  let h=document.createElement("div");
+  h.innerHTML="♥";
+  h.className="heart";
+  h.style.left=Math.random()*innerWidth+"px";
+  h.style.bottom="0px";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+},150);
+
+/* ÇİÇEK YAĞMURU */
+setInterval(()=>{
+  let f=document.createElement("div");
+  f.innerHTML=Math.random()>0.5?"🌹":"🌸";
+  f.className="flower";
+  f.style.left=Math.random()*innerWidth+"px";
+  f.style.top="-50px";
+  document.body.appendChild(f);
+  setTimeout(()=>f.remove(),10000);
+},250);
+
 </script>
 
 </body>
