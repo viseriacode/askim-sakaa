@@ -8,70 +8,125 @@ body {
   margin: 0;
   overflow: hidden;
   background: black;
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   text-align: center;
   color: white;
 }
 
-/* BERJİN yazısı */
-#name {
-  font-size: 90px;
-  font-weight: bold;
-  color: hotpink;
-  text-shadow: 0 0 20px pink, 0 0 50px red;
-  margin-top: 150px;
-  animation: glow 2s infinite alternate;
-}
-@keyframes glow {
-  from { text-shadow: 0 0 10px pink; }
-  to { text-shadow: 0 0 60px red; }
+/* Ortadaki büyük parlayan kalp */
+#bigHeart {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 200px;
+  color: red;
+  text-shadow: 0 0 20px #ff4d4d, 0 0 50px #ff1a1a, 0 0 80px #ff0000;
+  animation: pulse 1.5s infinite alternate;
 }
 
-/* Mesaj */
+/* Mesaj kalbin ortasında */
 #msg {
-  font-size: 26px;
-  margin-top: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 30px;
+  color: white;
+  width: 300px;
+  line-height: 1.4;
+  pointer-events: none; /* tıklamayla kalp patlamasını engellemesin */
 }
 
-/* Kalpler */
+/* Kalp animasyonu */
+@keyframes pulse {
+  from { transform: translate(-50%, -50%) scale(1); }
+  to { transform: translate(-50%, -50%) scale(1.1); }
+}
+
+/* Yağacak kalpler */
 .heart {
   position: absolute;
   font-size: 24px;
+  color: red;
   animation: float 6s linear infinite;
 }
 @keyframes float {
-  from { transform: translateY(0); opacity: 1; }
-  to { transform: translateY(-800px); opacity: 0; }
+  from { transform: translateY(0) rotate(0deg); opacity: 1; }
+  to { transform: translateY(-800px) rotate(360deg); opacity: 0; }
 }
 
-/* Çiçekler */
+/* Yağacak güller */
 .flower {
   position: absolute;
   font-size: 28px;
   animation: fall 10s linear infinite;
 }
 @keyframes fall {
-  from { transform: translateY(-100px); }
-  to { transform: translateY(900px); }
-}
-
-/* Yazı etrafında dönen kalpler */
-.orbit {
-  position: absolute;
-  font-size: 30px;
-  animation: spin 10s linear infinite;
-}
-@keyframes spin {
-  from { transform: rotate(0deg) translateX(200px) rotate(0deg); }
-  to { transform: rotate(360deg) translateX(200px) rotate(-360deg); }
+  from { transform: translateY(-50px) rotate(0deg); }
+  to { transform: translateY(900px) rotate(360deg); }
 }
 </style>
 </head>
-
 <body>
+
+<!-- Büyük parlayan kalp -->
+<div id="bigHeart">♥</div>
+<div id="msg">İyi ki o imza gününde karşılaşmışız<br>Seni seviyorum</div>
 
 <!-- Müzik -->
 <audio id="muzik" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_8b6c1b9a66.mp3?filename=romantic-piano-112191.mp3" loop></audio>
 
-<div id="name">BERJİN</div>
-<div id="msg">İyi ki o imza gününde karşılaşmışız ♥<br>Sen
+<script>
+// Fon müziği çalma
+const muzik = document.getElementById("muzik");
+window.addEventListener("load", () => {
+  muzik.play().catch(() => {
+    document.body.addEventListener("click", () => {
+      muzik.play();
+    }, { once: true });
+  });
+});
+
+// Yağacak kalpler ve güller
+setInterval(() => {
+  let h = document.createElement("div");
+  h.innerHTML = "♥";
+  h.className = "heart";
+  h.style.left = Math.random() * innerWidth + "px";
+  h.style.bottom = "0px";
+  h.style.fontSize = (Math.random()*30+15)+"px";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+}, 150);
+
+setInterval(() => {
+  let f = document.createElement("div");
+  f.innerHTML = Math.random() > 0.5 ? "🌹" : "🌸";
+  f.className = "flower";
+  f.style.left = Math.random() * innerWidth + "px";
+  f.style.top = "-50px";
+  f.style.fontSize = (Math.random()*30+20)+"px";
+  document.body.appendChild(f);
+  setTimeout(()=>f.remove(),10000);
+}, 200);
+
+// Tıklayınca kalp patlaması
+document.onclick = (e) => {
+  for (let i=0;i<20;i++){
+    let h = document.createElement("div");
+    h.innerHTML="♥";
+    h.style.position="absolute";
+    h.style.left=e.clientX+"px";
+    h.style.top=e.clientY+"px";
+    h.style.fontSize="20px";
+    document.body.appendChild(h);
+    let x=(Math.random()-0.5)*200;
+    let y=(Math.random()-0.5)*200;
+    h.animate([{transform:"translate(0,0)"},{transform:`translate(${x}px,${y}px)`}],{duration:1200});
+    setTimeout(()=>h.remove(),1200);
+  }
+};
+</script>
+</body>
+</html>
