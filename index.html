@@ -134,4 +134,20 @@ document.onclick = (e) => {
 </script>
 
 </body>
+  <audio id="muzik" src="https://ashamaluevmusic.com/tracks/romantic/download?format=mp3" loop></audio>
+
+<script>
+  const muzik = document.getElementById("muzik");
+
+  // Sayfa yüklendiğinde çalmaya çalış
+  window.addEventListener("load", () => {
+    muzik.play().catch(() => {
+      // Otomatik çalma engellenirse, kullanıcı tıklayınca çalsın
+      document.body.addEventListener("click", () => {
+        muzik.play();
+      }, { once: true });
+    });
+  });
+</script>
+
 </html>
