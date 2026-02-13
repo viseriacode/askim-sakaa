@@ -8,111 +8,130 @@ body {
   margin: 0;
   overflow: hidden;
   background: black;
-  font-family: 'Arial';
-  color: white;
+  font-family: Arial;
   text-align: center;
-}
-
-/* Galaksi yıldızlar */
-.star {
-  position: absolute;
-  background: white;
-  width: 2px;
-  height: 2px;
-  animation: twinkle 2s infinite alternate;
-}
-@keyframes twinkle {
-  from { opacity: 0.2; }
-  to { opacity: 1; }
+  color: white;
 }
 
 /* BERJİN yazısı */
 #name {
-  font-size: 80px;
+  font-size: 90px;
   font-weight: bold;
   color: hotpink;
-  text-shadow: 0 0 20px pink, 0 0 40px red;
-  margin-top: 180px;
+  text-shadow: 0 0 20px pink, 0 0 50px red;
+  margin-top: 150px;
   animation: glow 2s infinite alternate;
 }
 @keyframes glow {
   from { text-shadow: 0 0 10px pink; }
-  to { text-shadow: 0 0 40px red; }
+  to { text-shadow: 0 0 60px red; }
 }
 
 /* Mesaj */
 #msg {
-  font-size: 24px;
+  font-size: 26px;
   margin-top: 20px;
-  opacity: 0;
-  animation: show 5s forwards 3s;
-}
-@keyframes show {
-  to { opacity: 1; }
 }
 
 /* Kalpler */
 .heart {
   position: absolute;
-  font-size: 20px;
+  font-size: 24px;
   animation: float 6s linear infinite;
 }
 @keyframes float {
   from { transform: translateY(0); opacity: 1; }
-  to { transform: translateY(-700px); opacity: 0; }
+  to { transform: translateY(-800px); opacity: 0; }
 }
 
 /* Çiçekler */
 .flower {
   position: absolute;
-  font-size: 24px;
+  font-size: 28px;
   animation: fall 10s linear infinite;
 }
 @keyframes fall {
   from { transform: translateY(-100px); }
-  to { transform: translateY(800px); }
+  to { transform: translateY(900px); }
+}
+
+/* Yazı etrafında dönen kalpler */
+.orbit {
+  position: absolute;
+  font-size: 30px;
+  animation: spin 10s linear infinite;
+}
+@keyframes spin {
+  from { transform: rotate(0deg) translateX(200px) rotate(0deg); }
+  to { transform: rotate(360deg) translateX(200px) rotate(-360deg); }
 }
 </style>
 </head>
 
 <body>
 
+<!-- MÜZİK -->
+<audio autoplay loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_8b6c1b9a66.mp3?filename=romantic-piano-112191.mp3">
+</audio>
+
 <div id="name">BERJİN</div>
 <div id="msg">İyi ki o imza gününde karşılaşmışız 💖<br>Seni seviyorum</div>
 
 <script>
-// YILDIZLI GALAKSİ
-for (let i = 0; i < 200; i++) {
-  let s = document.createElement("div");
-  s.className = "star";
-  s.style.left = Math.random() * innerWidth + "px";
-  s.style.top = Math.random() * innerHeight + "px";
-  s.style.animationDuration = (Math.random()*3+1)+"s";
-  document.body.appendChild(s);
-}
-
-// UÇAN KALPLER
+// FULL KALP YAĞMURU
 setInterval(() => {
   let h = document.createElement("div");
   h.innerHTML = "❤️";
   h.className = "heart";
   h.style.left = Math.random() * innerWidth + "px";
   h.style.bottom = "0px";
-  h.style.fontSize = (Math.random()*20+10)+"px";
+  h.style.fontSize = (Math.random()*30+15)+"px";
   document.body.appendChild(h);
   setTimeout(()=>h.remove(),6000);
-}, 300);
+}, 100);
 
-// GÜL + ÇİÇEK YAĞMURU
+// FULL ÇİÇEK YAĞMURU
 setInterval(() => {
   let f = document.createElement("div");
-  f.innerHTML = Math.random() > 0.5 ? "🌹" : "🌸";
+  f.innerHTML = Math.random() > 0.5 ? "🌸" : "🌹";
   f.className = "flower";
   f.style.left = Math.random() * innerWidth + "px";
   f.style.top = "-50px";
-  f.style.fontSize = (Math.random()*20+15)+"px";
+  f.style.fontSize = (Math.random()*30+20)+"px";
   document.body.appendChild(f);
   setTimeout(()=>f.remove(),10000);
-}, 500);
+}, 150);
 
-// TIKLAYINCA KALP PATLAMASI
+// BERJİN etrafında dönen kalpler
+for(let i=0;i<12;i++){
+  let o = document.createElement("div");
+  o.innerHTML="💖";
+  o.className="orbit";
+  o.style.top="200px";
+  o.style.left="50%";
+  o.style.transformOrigin="0 0";
+  o.style.animationDelay=(i*0.8)+"s";
+  document.body.appendChild(o);
+}
+
+// Tıklayınca kalp patlaması
+document.onclick = (e) => {
+  for (let i=0;i<30;i++){
+    let h = document.createElement("div");
+    h.innerHTML="💘";
+    h.style.position="absolute";
+    h.style.left=e.clientX+"px";
+    h.style.top=e.clientY+"px";
+    h.style.fontSize="20px";
+    document.body.appendChild(h);
+    let x=(Math.random()-0.5)*300;
+    let y=(Math.random()-0.5)*300;
+    h.animate([{transform:"translate(0,0)"},{transform:`translate(${x}px,${y}px)`}],{duration:1200});
+    setTimeout(()=>h.remove(),1200);
+  }
+};
+</script>
+
+</body>
+</html>
