@@ -64,11 +64,31 @@ body{
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
-  font-size:5vw;
+  font-size:5.5vw;
   width:85%;
   text-align:center;
   z-index:3;
-  text-shadow:0 0 20px pink,0 0 40px red;
+  color:#fff;
+  text-shadow:0 0 10px #ff99cc, 0 0 25px #ff4da6, 0 0 50px #ff1a75;
+  line-height:1.4;
+}
+
+.word{
+  opacity:0;
+  display:inline-block;
+  margin-right:8px;
+  animation: fadeGlow 0.7s forwards;
+}
+
+@keyframes fadeGlow{
+  from{
+    opacity:0;
+    text-shadow:0 0 5px #ff99cc;
+  }
+  to{
+    opacity:1;
+    text-shadow:0 0 20px #ff66b2, 0 0 40px #ff1a75;
+  }
 }
 
 /* YAĞAN KALPLER */
@@ -119,10 +139,7 @@ body{
 
 <div id="bigHeart">♥</div>
 
-<div id="msg">
-İyi ki o imza gününde karşılaşmışız<br>
-Nadide Bir Parçasın Ki Farazi Sevmem Seni Berjin Saka 💖
-</div>
+<div id="msg"></div>
 
 <!-- SENİN MÜZİK DOSYAN -->
 <audio id="romantikMuzik" loop preload="auto">
@@ -134,6 +151,22 @@ Nadide Bir Parçasın Ki Farazi Sevmem Seni Berjin Saka 💖
 /* FOTOĞRAFLAR */
 document.getElementById("bgLeft").style.backgroundImage="url('ben.jpg')";
 document.getElementById("bgRight").style.backgroundImage="url('askim.jpg')";
+
+/* KELİME KELİME PARLAYARAK YAZI */
+const text = "İyi ki o imza gününde karşılaşmışız Nadide Bir Parçasın ki Farazi Sevmem Seni Berjin Saka 💖";
+const words = text.split(" ");
+const msgDiv = document.getElementById("msg");
+
+words.forEach((word, index) => {
+  const span = document.createElement("span");
+  span.className = "word";
+  span.textContent = word;
+  msgDiv.appendChild(span);
+
+  setTimeout(() => {
+    span.style.opacity = "1";
+  }, index * 300);
+});
 
 /* KALP YAĞMURU */
 setInterval(()=>{
@@ -157,7 +190,7 @@ setInterval(()=>{
   setTimeout(()=>f.remove(),10000);
 },250);
 
-/* MÜZİK BAŞLATMA (Mobil Uyumlu) */
+/* MÜZİK BAŞLATMA */
 const muzik=document.getElementById("romantikMuzik");
 
 function muzigiBaslat(){
