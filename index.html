@@ -16,7 +16,7 @@ body{
   color:white;
 }
 
-/* ARKA PLAN FOTO */
+/* ARKA PLAN */
 .bg {
   position:absolute;
   width:50%;
@@ -39,11 +39,8 @@ body{
   transform:translate(-50%,-50%);
   font-size:35vw;
   color:#ff0000;
-  text-shadow:
-    0 0 40px #ff4d4d,
-    0 0 100px #ff1a1a,
-    0 0 200px #ff0000;
-  animation:pulse 1.5s infinite alternate, glow 2s infinite alternate;
+  animation:pulse 1.5s infinite alternate;
+  text-shadow:0 0 40px #ff4d4d,0 0 100px #ff1a1a;
   z-index:2;
   cursor:pointer;
 }
@@ -53,23 +50,17 @@ body{
   to{ transform:translate(-50%,-50%) scale(1.1);}
 }
 
-@keyframes glow{
-  from{ text-shadow:0 0 20px pink,0 0 40px red;}
-  to{ text-shadow:0 0 60px #ff99cc,0 0 120px #ff0000;}
-}
-
 /* YAZI */
 #msg{
   position:absolute;
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
-  font-size:5.5vw;
+  font-size: clamp(22px, 3.5vw, 40px);
   width:85%;
   text-align:center;
   z-index:3;
   color:#fff;
-  text-shadow:0 0 10px #ff99cc, 0 0 25px #ff4da6, 0 0 50px #ff1a75;
   line-height:1.4;
 }
 
@@ -77,17 +68,16 @@ body{
   opacity:0;
   display:inline-block;
   margin-right:8px;
-  animation: fadeGlow 0.7s forwards;
 }
 
-@keyframes fadeGlow{
+@keyframes glowAppear{
   from{
     opacity:0;
     text-shadow:0 0 5px #ff99cc;
   }
   to{
     opacity:1;
-    text-shadow:0 0 20px #ff66b2, 0 0 40px #ff1a75;
+    text-shadow:0 0 20px #ff66b2,0 0 40px #ff1a75;
   }
 }
 
@@ -138,10 +128,9 @@ body{
 <div class="bg" id="bgRight"></div>
 
 <div id="bigHeart">♥</div>
-
 <div id="msg"></div>
 
-<!-- SENİN MÜZİK DOSYAN -->
+<!-- SENİN MÜZİK -->
 <audio id="romantikMuzik" loop preload="auto">
   <source src="videoplayback.mp3" type="audio/mpeg">
 </audio>
@@ -152,23 +141,32 @@ body{
 document.getElementById("bgLeft").style.backgroundImage="url('ben.jpg')";
 document.getElementById("bgRight").style.backgroundImage="url('askim.jpg')";
 
-/* KELİME KELİME PARLAYARAK YAZI */
-const text = "İyi ki o imza gününde karşılaşmışız Nadide Bir Parçasın ki Farazi Sevmem Seni Berjin Saka 💖";
+/* KELİME KELİME PARLAYARAK ÇIKMA - ULTRA GARANTİ */
+const text = "İyi ki o imza gününde karşılaşmışız Seni seviyorum Berjin Saka 💖";
 const words = text.split(" ");
 const msgDiv = document.getElementById("msg");
 
-words.forEach((word, index) => {
-  const span = document.createElement("span");
-  span.className = "word";
-  span.textContent = word;
-  msgDiv.appendChild(span);
+let index = 0;
 
-  setTimeout(() => {
-    span.style.opacity = "1";
-  }, index * 300);
-});
+function showNextWord(){
+  if(index < words.length){
+    const span = document.createElement("span");
+    span.className = "word";
+    span.textContent = words[index];
+    msgDiv.appendChild(span);
 
-/* KALP YAĞMURU */
+    requestAnimationFrame(() => {
+      span.style.animation = "glowAppear 0.6s forwards";
+    });
+
+    index++;
+    setTimeout(showNextWord, 300);
+  }
+}
+
+showNextWord();
+
+/* YAĞMUR EFEKTLERİ */
 setInterval(()=>{
   let h=document.createElement("div");
   h.innerHTML="♥";
@@ -179,7 +177,6 @@ setInterval(()=>{
   setTimeout(()=>h.remove(),6000);
 },150);
 
-/* ÇİÇEK YAĞMURU */
 setInterval(()=>{
   let f=document.createElement("div");
   f.innerHTML=Math.random()>0.5?"🌹":"🌸";
@@ -201,7 +198,7 @@ function muzigiBaslat(){
 document.body.addEventListener("click", muzigiBaslat, {once:true});
 document.body.addEventListener("touchstart", muzigiBaslat, {once:true});
 
-/* KALP PATLAMASI */
+/* KALP PATLAMA */
 document.getElementById("bigHeart").addEventListener("click",()=>{
   for(let i=0;i<20;i++){
     let e=document.createElement("div");
